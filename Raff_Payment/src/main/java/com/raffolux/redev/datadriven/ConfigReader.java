@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class ConfigReader {
 	private static Properties properties;
-	private static String path = "C:\\Users\\DELL\\eclipse-workspace\\Raff_Payment\\src\\test\\resources\\configuration.properties";
+	private static String path = "C:\\Users\\Rhibhus\\git\\Raff_Payment1\\Raff_Payment\\src\\test\\resources\\configuration.properties";
 
 	static {
 		try {

@@ -2,15 +2,15 @@ package com.pompackage;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat; 
 
-import com.microsoft.playwright.Locator; 
-
-public class Checkout_POM_3 {
-
+public class RafflePage {
 	 private Page page;
 
-	    // XPath or CSS Selectors
+	    // XPath selectors
+
+	    private String rafflePageRaffleTitleXPath = "//div[@class='detailsCardStylings mb-detailsCard']/h4";
+	    private String rafflePageRafflePriceXPath = "//div[@class=\"raffle-launch-price-text d-flex justify-content-center\"] | //div[@class=\"cardPrice mb-cardPriceText\"]";
 	    private String dropdownButtonXPath = "#dropdownMenuButton1Log";
 	    private String dropdownListXPath = "//ul[@id='dropDownMenuListLog']/li[normalize-space() ='%s']";
 	    private String totalPriceXPath = "//button[@class='btn addBtn']/span/following-sibling::span";
@@ -18,11 +18,27 @@ public class Checkout_POM_3 {
 	    private String successHeadingRole = "Success!";
 	    private String addCartWithLoginXPath = "#addCartwithlogin";
 	    private String viewCartButtonRole = "View cart";
-
-	    public Checkout_POM_3(Page page) {
+	    // Constructor
+	    public RafflePage(Page page) {
 	        this.page = page;
 	    }
 
+	    public String getRafflePageRaffleTitle() {
+	        return page.locator(rafflePageRaffleTitleXPath).textContent();
+	    }
+
+	    public String getRafflePageRafflePrice() {
+	        return page.locator(rafflePageRafflePriceXPath).textContent();
+	    }
+
+	    public void assertRaffleEndedIsVisible() {
+	        assertThat(page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("RAFFLE ENDED"))).isVisible();
+	    }
+
+	    public void assertFeaturedCompetitionsIsVisible() {
+	        assertThat(page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("FEATURED COMPETITIONS"))).isVisible();
+	    }
+	    
 	    public void clickDropdownButton() {
 	        page.locator(dropdownButtonXPath).click();
 	    }
@@ -56,17 +72,4 @@ public class Checkout_POM_3 {
 	        // Use a simple button locator if getByRole doesn't work
 	        page.locator("button:has-text('" + viewCartButtonRole + "')").click();
 	    }
-//	    public boolean isSuccessMessageVisible() {
-//	        return page.getByRole("heading", new Page.GetByRoleOptions().setName(successHeadingRole)).isVisible();
-//	    }
-//
-//	    public boolean isAddedToCartMessageVisible(String entries, String raffleTitle) {
-//	        return page.locator(addCartWithLoginXPath)
-//	                .containsText(entries + " entries for the " + raffleTitle + " have been added to your cart.");
-//	    }
-//
-//	    public void clickViewCartButton() {
-//	        page.getByRole("button", new Page.GetByRoleOptions().setName(viewCartButtonRole)).click();
-//	    }
-	
 }

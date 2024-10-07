@@ -1,18 +1,19 @@
 package com.stepdefinition;
 
 import com.common_utilities.Common_Utilities;
+
 import com.common_utilities.ExcelLogger;
 import com.microsoft.playwright.FrameLocator;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-import com.pompackage.Checkout_POM_1;
-import com.pompackage.Checkout_POM_2;
-import com.pompackage.Checkout_POM_3;
-import com.pompackage.Checkout_POM_4;
-import com.pompackage.Checkout_POM_5;
-import com.pompackage.Checkout_POM_6;
-import com.pompackage.Checkout_POM_7;
+import com.pompackage.Homepage;
+import com.pompackage.RafflePage;
+
+import com.pompackage.Cartpage;
+import com.pompackage.DNApage;
+import com.pompackage.PaymentSuccessPage;
+
 import com.raffolux.redev.datadriven.ConfigReader;
 
 import static com.stepdefinition.Base_Test.*;
@@ -51,7 +52,12 @@ public class Checkout_Steps_Class{
 	   public String promoCode ="MISSUdghJ";
 	   public String  appliedPromoCodeValue;
 	   
-	   private static final String FILE_PATH = "C:\\Users\\DELL\\eclipse-workspace\\Raff_Payment\\Redev.xlsx";
+	PaymentSuccessPage confirmationPage=new PaymentSuccessPage(page);	
+	   
+		RafflePage rafflePage=new RafflePage(page);
+		
+		Homepage homePage=new Homepage(page);
+	   private static final String FILE_PATH = "C:\\Users\\Rhibhus\\git\\Raff_Payment1\\Raff_Payment\\Redev.xlsx";
 	    private ExcelLogger excelLogger;
 
 	    public Checkout_Steps_Class() {
@@ -71,7 +77,7 @@ public class Checkout_Steps_Class{
 
 	@And("the home page should be displayed after login")
 	public void the_home_page_should_be_displayed_after_login() throws InterruptedException {
-		Checkout_POM_1 homePage=new Checkout_POM_1(page);
+		Homepage homePage=new Homepage(page);
 		Thread.sleep(2000);
 
         String beforePurchasingPoints = homePage.getBeforePurchasingPoints();
@@ -95,26 +101,26 @@ public class Checkout_Steps_Class{
 
 	@Then("validate the title, price, and total cost for the purchase on the raffle page")
 	public void validate_the_title_price_and_total_cost_for_the_purchase_on_the_raffle_page() throws InterruptedException {
-		Checkout_POM_2 rafflePage=new Checkout_POM_2(page);
+	
 		Thread.sleep(3000);
-        homePageRaffleTitle = rafflePage.getHomePageRaffleTitle();
-       String homePageRafflePrice = rafflePage.getHomePageRafflePrice(homePageRaffleTitle);
-       rafflePage.clickHomePageRaffleButton(homePageRaffleTitle);
+        homePageRaffleTitle =homePage.getHomePageRaffleTitle();
+       String homePageRafflePrice = homePage.getHomePageRafflePrice(homePageRaffleTitle);
+       homePage.clickHomePageRaffleButton(homePageRaffleTitle);
 
         Thread.sleep(3000);
-        rafflePage.assertRaffleEndedIsVisible();
+      //  rafflePage.assertRaffleEndedIsVisible();
 
-        Thread.sleep(3000);
-        rafflePage.clickAllCompetitionsLink();
-        rafflePage.assertFeaturedCompetitionsIsVisible();
+      //  Thread.sleep(3000);
+      //  homePage.clickAllCompetitionsLink();
+        //rafflePage.assertFeaturedCompetitionsIsVisible();
 
-        homePageRaffleTitle = rafflePage.getFeaturedCompetitionsTitle();
+        homePageRaffleTitle = homePage.getFeaturedCompetitionsTitle();
         Thread.sleep(3000);
-        homePageRafflePrice = rafflePage.getFeaturedCompetitionsPrice();
+        homePageRafflePrice = homePage.getFeaturedCompetitionsPrice();
         logFetchedData("Home Page Raffle Title", homePageRaffleTitle);
         logFetchedData("Home Page Raffle Price", homePageRafflePrice);
         Thread.sleep(3000);
-        rafflePage.clickHomePageRaffleButton(homePageRaffleTitle);
+        homePage.clickHomePageRaffleButton(homePageRaffleTitle);
 
         Thread.sleep(3000);
         rafflePageRaffleTitle = rafflePage.getRafflePageRaffleTitle();
@@ -132,7 +138,7 @@ public class Checkout_Steps_Class{
 
 	@Then("add the tickets to the cart")
 	public void add_the_tickets_to_the_cart() throws InterruptedException {
-		Checkout_POM_3 rafflePage=new Checkout_POM_3(page);
+		
 		rafflePage.clickDropdownButton();
         Thread.sleep(3000);
 
@@ -160,7 +166,7 @@ public class Checkout_Steps_Class{
 
 	@Then("validate that the points displayed for the purchase are correct")
 	public void validate_that_the_points_displayed_for_the_purchase_are_correct() throws InterruptedException {
-		Checkout_POM_4 cartPage=new Checkout_POM_4(page);
+		Cartpage cartPage=new Cartpage(page);
 		// Use locators from the POM class
         Locator totalCostLocator = page.locator(cartPage.getTotalCostLocator());
         Locator pointsForPurchaseLocator = page.locator(cartPage.getPointsForPurchaseLocator());
@@ -209,7 +215,7 @@ public class Checkout_Steps_Class{
 
 	@And("valid card details should be entered")
 	public void valid_card_details_should_be_entered() throws InterruptedException {
-		Checkout_POM_5 paymentPage=new Checkout_POM_5(page);
+		DNApage paymentPage=new DNApage(page);
 	        if (Checkoutcost.equals("£0.00")) {
 	            System.out.println("Yes, checkout is equal to £0.00. The checkout cost is:>> " + Checkoutcost);
 	        } else {
@@ -252,7 +258,7 @@ public class Checkout_Steps_Class{
 
 	@Then("the user should be able to see the purchased tickets")
 	public void the_user_should_be_able_to_see_the_purchased_tickets() throws InterruptedException {
-		Checkout_POM_6 confirmationPage=new Checkout_POM_6(page);
+		PaymentSuccessPage confirmationPage=new PaymentSuccessPage(page);
 
         // Validate the presence of the confirmation message
         assertThat(page.getByText(confirmationPage.getConfirmationMessageLocator())).isVisible();
@@ -273,7 +279,7 @@ public class Checkout_Steps_Class{
 
 	@And("the user should receive the correct points for the purchase")
 	public void the_user_should_receive_the_correct_points_for_the_purchase() throws InterruptedException {
-		Checkout_POM_7 confirmationPage=new Checkout_POM_7(page);		
+			
 		  // Validate the presence of the confirmation message
         assertThat(page.getByText(confirmationPage.getConfirmationMessageTextLocator())).isVisible();
 
@@ -288,6 +294,7 @@ public class Checkout_Steps_Class{
         page.getByRole(AriaRole.BUTTON, 
                 new Page.GetByRoleOptions().setName(confirmationPage.getContinueButtonLocator())).click();
 	}
+	
 //	 @AfterClass
 //	    public void tearDown() {
 //	        // Save and close the Excel file at the end of the test

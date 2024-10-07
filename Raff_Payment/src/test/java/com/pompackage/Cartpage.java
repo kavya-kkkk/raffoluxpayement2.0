@@ -2,7 +2,7 @@ package com.pompackage;
 
 import com.microsoft.playwright.Page;
 
-public class Checkout_POM_4 {
+public class Cartpage {
 	private Page page;
 	
 	  // Store locators as strings
@@ -11,7 +11,7 @@ public class Checkout_POM_4 {
     private String pointsLocator = "//span[@class=\"points\"]";
     private String beforePurchasingPointsLocator = "//p[contains(text(), 'RP')]";
 
-  public Checkout_POM_4(Page page){
+  public Cartpage(Page page){
     	this.page=page;
     }
     // Getter methods to return locators

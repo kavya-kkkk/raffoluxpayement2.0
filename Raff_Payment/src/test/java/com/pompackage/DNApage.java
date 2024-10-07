@@ -2,7 +2,7 @@ package com.pompackage;
 
 import com.microsoft.playwright.Page;
 
-public class Checkout_POM_5 {
+public class DNApage {
 
 	private Page page;
 	// Store locators as strings
@@ -19,7 +19,7 @@ public class Checkout_POM_5 {
     private String submitButtonRole = "BUTTON";
     private String submitButtonName = "Send";
 
-    public Checkout_POM_5(Page page) {
+    public DNApage(Page page) {
     	this.page=page;
     }
     // Getter methods to return locators
